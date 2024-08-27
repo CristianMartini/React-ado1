@@ -1,30 +1,52 @@
-import React from 'react';
+
 import Navbar from './components/NavBar';
 import Sidebar from './components/SideBar';
-import Login from './components/Login';
-import './styles/global.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
+import './styles/global.css';
+import React, { useState } from 'react';
+
+import TaskForm from './components/TaskForm';
+import TaskList from './components/TaskList';
+
 
 function App() {
+  const [tasks, setTasks] = useState([]);
+
+  const addTask = (text) => {
+    const newTask = {
+      id: Date.now(),
+      text,
+      completed: false,
+    };
+    setTasks([...tasks, newTask]);
+  };
+
+  const toggleTaskCompleted = (taskId) => {
+    setTasks(tasks.map(task => 
+      task.id === taskId ? { ...task, completed: !task.completed } : task
+    ));
+  };
+
+  const removeTask = (taskId) => {
+    setTasks(tasks.filter(task => task.id !== taskId));
+  };
+
   return (
-    <Router>
-      <Routes>
-       
-        <Route
-          path="/*"
-          element={
-            <div className="app-container">
-              <Navbar />
-              <Sidebar />
-              <main className="content">
-                <Home />
-              </main>
-            </div>
-          }
-        />
-      </Routes>
-    </Router>
+    <div className="app-container">
+      <Navbar />
+      <div className="main-content">
+        <Sidebar />
+        <main className="content">
+          <h1>Gerenciamento de Tarefas</h1>
+          <TaskForm addTask={addTask} />
+          <TaskList
+            tasks={tasks}
+            toggleTaskCompleted={toggleTaskCompleted}
+            removeTask={removeTask}
+          />
+        </main>
+      </div>
+    </div>
   );
 }
 
