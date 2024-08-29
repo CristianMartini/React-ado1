@@ -3,35 +3,5 @@
   line-height: 1.5;
   font-weight: 400;
 
- 
- 
-
   
-}
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-}
-
-.app-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.main-content {
-  display: flex;
-  flex-grow: 1;
-}
-
-.content {
-  flex-grow: 1;
-  padding: 20px;
-  margin-left: 250px; /* Ajusta para que o conteúdo principal não fique sob a sidebar */
-}
-
-@media (max-width: 768px) {
-  .content {
-    margin-left: 0; /* Remove a margem em telas pequenas quando a sidebar está escondida */
-  }
 }

@@ -1,18 +1,21 @@
 import React from 'react';
 import TaskItem from './TaskItem';
 
-function TaskList({ tasks, toggleTaskCompleted, removeTask }) {
+function TaskList({ tasks, status, onStatusChange, removeTask }) {
+  const filteredTasks = tasks.filter(task => task.status === status);
+
   return (
-    <ul>
-      {tasks.map((task) => (
+    <div className="kanban-column">
+      <h2>{status}</h2>
+      {filteredTasks.map((task) => (
         <TaskItem
           key={task.id}
           task={task}
-          toggleTaskCompleted={toggleTaskCompleted}
+          onStatusChange={onStatusChange}
           removeTask={removeTask}
         />
       ))}
-    </ul>
+    </div>
   );
 }
 

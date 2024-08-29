@@ -1,13 +1,9 @@
-
+import React, { useState } from 'react';
 import Navbar from './components/NavBar';
 import Sidebar from './components/SideBar';
-import Home from './pages/Home';
-import './styles/global.css';
-import React, { useState } from 'react';
-
 import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
-
+import './styles/global.css';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -16,14 +12,14 @@ function App() {
     const newTask = {
       id: Date.now(),
       text,
-      completed: false,
+      status: 'A Fazer',
     };
     setTasks([...tasks, newTask]);
   };
 
-  const toggleTaskCompleted = (taskId) => {
+  const onStatusChange = (taskId, newStatus) => {
     setTasks(tasks.map(task => 
-      task.id === taskId ? { ...task, completed: !task.completed } : task
+      task.id === taskId ? { ...task, status: newStatus } : task
     ));
   };
 
@@ -37,13 +33,13 @@ function App() {
       <div className="main-content">
         <Sidebar />
         <main className="content">
-          <h1>Gerenciamento de Tarefas</h1>
+          <h1>Gerenciamento de Tarefas - Kanban</h1>
           <TaskForm addTask={addTask} />
-          <TaskList
-            tasks={tasks}
-            toggleTaskCompleted={toggleTaskCompleted}
-            removeTask={removeTask}
-          />
+          <div className="kanban-board">
+            <TaskList tasks={tasks} status="A Fazer" onStatusChange={onStatusChange} removeTask={removeTask} />
+            <TaskList tasks={tasks} status="Em Progresso" onStatusChange={onStatusChange} removeTask={removeTask} />
+            <TaskList tasks={tasks} status="Concluído" onStatusChange={onStatusChange} removeTask={removeTask} />
+          </div>
         </main>
       </div>
     </div>
